@@ -99,6 +99,9 @@ void DataGramClient(short nPort, char* nIP)
         sizeof(SOCKADDR));
     printf("发送数据： %s\n", sendBuf);
 
+    //
+    // 从 server 接收数据
+    //
     int nLen;
     nLen = sizeof(SOCKADDR);
     char szBuf[4096];

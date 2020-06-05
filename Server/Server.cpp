@@ -108,8 +108,25 @@ void DataGramServer(short nPort)
     //
     // 展示 server IP以及端口号
     //
-    printf("\n本地主机[%s]UDP端口[%d]，正在等候客户端．．．\n",
-        szBuf, nPort);
+    CHAR szClientIP[128], szClientPort[64];
+    //strcpy(szClientIP, inet_ntoa(saServer.sin_addr));
+    strcpy(szClientPort, itoa(ntohs(saServer.sin_port), szClientPort ,10));
+
+    struct hostent *phostinfo = gethostbyname("");
+    char *p = inet_ntoa(*((struct in_addr *)(*phostinfo->h_addr_list)));
+    strcpy(szClientIP, p);
+
+    printf("\n本地主机[%s](%s:%s)UDP端口[%d]，正在等候客户端．．．\n",
+        szBuf, szClientIP, szClientPort, nPort);
+
+    printf("IP列表:\n");
+    int j = 0;
+    for (j = 0; NULL != phostinfo && NULL != phostinfo->h_addr_list[j]; ++j)
+    {
+        char *pszAddr = inet_ntoa(*(struct in_addr *)phostinfo->h_addr_list[j]);
+        printf("%s\n", pszAddr);
+    }
+
     //
     // 从 client 接收数据
     //
